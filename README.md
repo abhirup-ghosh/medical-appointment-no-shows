@@ -89,17 +89,24 @@ This notebook outlines the entire investigation and consists of the following st
 
 We encode our best model (LGBMClassifier) inside the `scripts/train.py` file which can be run using:
 ```
-python scripts/train.py
+cd scripts
+python train.py
 ```
 
 The output of this script, which includes the model and the encoder/scaler transforms, can be found in: `models/LGBMClassifier_tranformers_final.bin`. It have an accuracy of **0.807** and an ROC AUC = **0.797**. This is the model we use to make predictions in the next steps.
 
 ### 5. Making predictions
 
-We have written a Flask code for serving the model, which can be run using:
+We have written a Flask code for serving the model by exposing the port:9696, which can be run using:
 
 ```
-python scripts/predict.py
+cd scripts
+python predict.py
+```
+or `gunicorn` as:
+```
+cd scripts
+gunicorn --bind 0.0.0.0:9696 predict:app
 ```
 
 We can use this to make an example prediction on the appointment:
@@ -125,15 +132,41 @@ test_appointment = {
 using the command:
 
 ```
-python scripts/predict-test.py
+cd scripts
+python predict-test.py
 # {'no_show': False, 'no_show_probability': 0.2880257379453167}
 ```
 
 This gives us a `no_show` class [0 or 1] as well as a probability.
 
+🚨 Always remember to `conda activate ml-zoomcamp` whenever opening a new terminal/tab.
+
 ### 6. Model Deployment
 
+Run the `Dockerfile` using [make sure that the docker daemon is running?] to build the image `no-show-prediction`:
 
+```
+docker build -t no-show-prediction .
+```
+
+We can access the docker container via the terminal using:
+```
+docker run -it --rm --entrypoint=bash no-show-prediction
+```
+
+Once the image is built, we need to expose the container port (9696) to the localhost port (9696) using:
+
+```
+docker run -it --rm -p 9696:9696 no-show-prediction
+```
+
+We can now make a request in exactly the same way as Step 5:
+
+```
+cd scripts
+python predict-test.py
+# {'no_show': False, 'no_show_probability': 0.2880257379453167}
+```
 
 
 
