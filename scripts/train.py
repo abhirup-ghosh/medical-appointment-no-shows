@@ -20,7 +20,7 @@ import pickle
 # Details of the dataset, including description of columns and associated datatypes, can be found [here](../data/README.md).
 #----------------------------------------------------------------------------------------
 print('...loading data')
-data_loc = 'data/KaggleV2-May-2016.csv'
+data_loc = '../data/KaggleV2-May-2016.csv'
 
 df = pd.read_csv(data_loc, 
                  parse_dates=['ScheduledDay', 'AppointmentDay'],
@@ -186,5 +186,5 @@ print('AUC ROC:', roc_auc_score(y_train, y_fit))
 print('...saving model')
 model_name = "LGBMClassifier_tranformers_final"
 
-with open(f'models/{model_name}.bin', 'wb') as f_out: # 'wb' means write-binary
+with open(f'../models/{model_name}.bin', 'wb') as f_out: # 'wb' means write-binary
     pickle.dump((scaler, ohe, lgbm_best), f_out)

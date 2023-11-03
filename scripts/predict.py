@@ -96,7 +96,7 @@ categorical = [
             'neighbourhood'
         ]
 
-model_file = 'models/LGBMClassifier_tranformers_final.bin'
+model_file = '../models/LGBMClassifier_tranformers_final.bin'
 
 with open(model_file, 'rb') as f_in:
     scaler, ohe, model = pickle.load(f_in)
