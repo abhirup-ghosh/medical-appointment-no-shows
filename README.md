@@ -3,62 +3,103 @@
 ## Table of Contents
 - [Project Overview](#project-overview)
 - [Datasets](#datasets)
-- [Directory structure](#dirctory-structure)
 - [Dependencies](#dependencies)
-- [Workflow](#workflow)
-  - [Modelling workflow](#modelling-workflow)
-  - [Deployment workflow](#deployment-workflow)
+- [Getting Started](#getting-started)
+- [Directory structure](#dirctory-structure)
+- [Models](#models)
+- [Contributors](#contributors)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contributions and Feedback](#contributions-and-feedback)
 
 ---
 
 ## [Project Overview](#project-overview)
 
-This machine learning project focuses on addressing the issue of patient no-shows in medical appointments. Predicting whether a patient will show up for their scheduled medical appointment is a critical task for healthcare providers as it can help optimize resource allocation and improve overall patient care. By harnessing the power of data and machine learning, we aim to develop a predictive model that can assist healthcare facilities in identifying patients at higher risk of no-shows.
+This machine learning project focuses on addressing the issue of patient no-shows in medical appointments. Predicting whether a patient will show up for their scheduled medical appointment is a critical task for healthcare providers as it can help optimize resource allocation and improve overall patient care. By harnessing the power of data and machine learning, we aim to develop a predictive model that can assist healthcare facilities in identifying patients at higher risk of no-shows. Starting with a Kaggle data of medical appointment no-shows by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), we evaluate the performances of four different classification algorithms (Logistic Regression, Decision Trees, Random Forests and Gradient Boosting) and settle on an `XGBClassifier` model as our final model. Using the trained model we make predictions on whether a future appointment would lead to a no-show or not. Finally, we containerise this application and deploy it on the cloud.
 
 ## [Datasets](#datasets)
 
-This project uses a Kaggle dataset of over 100,000 medical appointments characterised by 14 associated variables, including temporal details, patient information and the ultimate outcome (and the **target variable** of our classification task) of the appointment -- whether the patient showed up for the appointment or not. The dataset was created by * [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), and can be downloaded from:
+This project uses a Kaggle dataset of over 100,000 medical appointments characterised by 14 associated variables, including temporal details, patient information and the ultimate outcome (and the **target variable** of our classification task) of the appointment -- whether the patient showed up for the appointment or not. The dataset was created by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), and can be downloaded from:
 ```
 https://www.kaggle.com/datasets/joniarroba/noshowappointments/data
 ```
 
 Further details of the datasets used can be found [here](./data/README.md).
 
-## [Project Structure](#project-structure)
-
-The project consists of the following components [Long-form details [here](./docs/DataScienceWorkflow_CheatSheet.pdf)]:
-
-- **Data Wrangling and Preprocessing:** This step involves loading the datasets, examining their contents, and performing necessary data cleaning, integration, transformation, reduction and formatting. Finally we save the preprocessed dataset and split it into training, validation and test sets. Details are provided in [this notebook](./notebooks/data-wrangling-preprocessing.ipynb).
-
-- **Data Exploration:** After data wrangling, the dataset is explored to gain insights and understand the distribution and relationships between variables. Descriptive statistics and visualizations are used to analyze the data. Details are provided in [this notebook](./notebooks/data-exploration.ipynb).
-
-- **Feature Selection and Engineering:** Feature selection techniques are applied to identify the most relevant features for predicting individual defensive performance. Additionally, feature engineering is performed to create new informative features that can enhance the model's predictive capabilities.
-
-- Model Development and Evaluation: Various machine learning algorithms are trained and evaluated using appropriate evaluation metrics. The models are fine-tuned using techniques such as cross-validation and hyperparameter optimization to improve their performance.
-
-- Handling Imbalanced Data: If the dataset exhibits class imbalance (e.g., uneven distribution of defensive performance classes), techniques for handling imbalanced data, such as oversampling or undersampling, are applied to address this issue.
-
-- Model Deployment: Once a satisfactory model is obtained, it can be deployed for practical use. This step involves saving the trained model, setting up the necessary infrastructure (e.g., hosting platform), and creating an interface (e.g., API) for making predictions.
-
-
-## [Dependencies](#dependencies) [**WIP**]
+## [Dependencies](#dependencies)
 
 The project requires the following dependencies to be installed:
 
 ```
+Conda
 Docker
-Terraform
-Docker Compose
 ```
 
-## Getting Started/Workflow [**WIP**]
+## [Getting Started](#getting-started)
 
 To run this project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your/repository.git`
-2. Install the required dependencies: `pip install -r opt/requirements.txt`
-3. Download the datasets and place it in the appropriate directory.
-4. Run the project scripts in the order specified in the project structure section.
+### 1. Clone the repository: 
+
+
+```
+git clone https://github.com/abhirup-ghosh/medical-appointment-no-shows.git
+```
+
+
+### 2. **Setting up the environment:**
+
+The easiest way to set up the environment is to use [Anaconda](https://www.anaconda.com/download). I used the standard Machine Learning Zoomcamp conda environment `ml-zoomcamp`, which you can create, activate, and install the relevant libraries in, using the following commands in your terminal:
+
+```
+conda create -n ml-zoomcamp python=3.9
+conda activate ml-zoomcamp
+conda install numpy pandas scikit-learn seaborn jupyter xgboost pipenv flask gunicorn
+```
+
+Alternatively, I have also provided a conda `environment.yml` file that can be directly used to create the environment:
+
+```
+conda env create -f opt/environment.yml
+```
+
+In case, you are working in a python virtual environment, I provide a list of dependencies that can be pip installed using:
+```
+pip install -r opt/optional_requirements.txt
+```
+
+### 3. Running `notebooks/notebook.ipynb`
+
+The notebook outlines the following steps:
+
+- Data loading
+- Data cleaning and preparation
+- Exploratory data analysis
+- Feature Engineering
+- Feature importance
+- Setting up a validation framwork
+- Model evaluation [and hyper-parameter tuning]
+- Saving the best model and encoders [in the [models](../models) directory]
+- Preparation of the test data
+- Making predictions using the saved model
+- Testing Flask framework
+
+### 4. Training model
+
+We encode our best model (XGBClassifier) inside the `scripts/train.py` file which can be run using [⚠️ The script can take upto 30 mins to run.]:
+```
+python scripts/train.py
+```
+
+The output of this model can be found in: `models/XGBClassifier_tranformers_final.bin`
+
+### 5. Making predictions
+
+### 6. Model Deployment
+
+
+
 
 
 ## [Directory structure](#dirctory-structure) [**WIP**]
@@ -96,18 +137,31 @@ football-advanced-performance-metrics/
 |-- docker-compose.yaml
 ```
 
-## Contributors
+## [Models](#models)
+
+We evaluated the performances of four different models. Their accuracies and ROC AUC are listed in the table below:
+
+|Model                          | Accuracy 	| ROC_AUC 	|
+|-----                          | -------- 	| ------- 	|
+|LogisticRegression             | 0.792 	| 0.686 	|
+|DecisionTreeClassifier         | 0.793 	| 0.725 	|
+|RandomForestClassifier         | 0.793 	| 0.682 	|
+|XGBClassifier ✅                 | 0.796 	| 0.749 	|
+
+Our final model, XGBClassifier, produced a score of 
+
+## [Contributors](#contributors)
 Abhirup Ghosh, <abhirup.ghosh.184098@gmail.com>
 
-
-
-## License
+## [License](#license)
 This project is licensed under the [MIT License](./LICENSE).
 
-## Acknowledgments
-Acknowledgment 1
-Acknowledgment 2
+## [Acknowledgments](#acknowledgments)
+* [Alexey Grigorev](https://github.com/alexeygrigorev)
+* [DataTalks.Club](https://datatalks.club/)
+* [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/)/[Aquarela Analytics](https://www.linkedin.com/company/aquare-la/)
 
+<!---
 ## Follow-ups/Next steps
 * Fix: target variable and input features
   * how is a defender judged
@@ -115,11 +169,10 @@ Acknowledgment 2
   * multi-target variable prediction: find a way to predict each attribute depending on it's own set of features
   * target variables can be derived, advanced metrics regarding each attribute.
 * Move onto feature selection/engineering: Advanced defensive metrics
+-->
 
-## Contributions and Feedback:
+## [Contributions and Feedback](#contributions-and-feedback)
 
-We welcome contributions from the community and feedback from healthcare professionals and data scientists. Together, we can refine our model and enhance its utility in real-world healthcare settings.
-
-Feel free to explore the project, contribute, or reach out with any questions or suggestions. Together, we can work towards a healthcare system that is more efficient, patient-centered, and cost-effective.
+We welcome contributions from the community and feedback from healthcare professionals and data scientists. Together, we can refine our model and enhance its utility in real-world healthcare settings. Feel free to explore the project, contribute, or reach out with any questions or suggestions. Together, we can work towards a healthcare system that is more efficient, patient-centered, and cost-effective.
 
 
