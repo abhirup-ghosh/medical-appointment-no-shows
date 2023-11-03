@@ -16,7 +16,10 @@
 
 ## [Project Overview](#project-overview)
 
-This machine learning project focuses on addressing the issue of patient no-shows in medical appointments. Predicting whether a patient will show up for their scheduled medical appointment is a critical task for healthcare providers as it can help optimize resource allocation and improve overall patient care. By harnessing the power of data and machine learning, we aim to develop a predictive model that can assist healthcare facilities in identifying patients at higher risk of no-shows. Starting with a Kaggle data of medical appointment no-shows by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), we evaluate the performances of four different classification algorithms (Logistic Regression, Decision Trees, Random Forests, XGBoost, and LightGBM) and settle on an `LGBMClassifier` model as our final model. Using the trained model we make predictions on whether a future appointment would lead to a no-show or not. Finally, we containerise this application and deploy it on the cloud.
+Predicting whether a patient will show up for their scheduled medical appointment is a critical task for healthcare providers as it can help optimize resource allocation and improve overall patient care. This machine learning project focuses on addressing the issue of patient no-shows in medical appointments. By harnessing the power of data and machine learning, we aim to develop a predictive model that can assist healthcare facilities in identifying patients at higher risk of no-shows. 
+
+
+Starting with a Kaggle data of medical appointment no-shows by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), we evaluate the performances of four different classification algorithms (Logistic Regression, Decision Trees, Random Forests, XGBoost, and LightGBM) and settle on an `LGBMClassifier` model as our final model. Using the trained model we make predictions on whether a future appointment would lead to a no-show or not. Finally, we containerise this application and deploy it on the cloud.
 
 ## [Datasets](#datasets)
 
@@ -168,43 +171,6 @@ python predict-test.py
 # {'no_show': False, 'no_show_probability': 0.2880257379453167}
 ```
 
-
-
-## [Directory structure](#dirctory-structure) [**WIP**]
-
-```bash
-football-advanced-performance-metrics/
-|-- data/                           # raw and processed data used in the project.
-|   |-- raw/                        # the original data files, such as credit_data.csv.
-|   |   |-- dataset.csv             
-|   |   |-- template.csv            
-|   |-- predictions/                # the predictions of the model.
-|   |   |-- test_predictions.csv            
-|-- models/                         # models built.
-|   |-- model.joblib
-|-- docs/                           # documentation for the project, such as project requirements, design documents, and user guides.
-|-- notebooks/                      # Jupyter notebooks for each stage of the workflow.
-|   |-- exploration/                # notebooks related to data exploration.
-|   |   |-- data_exploration.ipynb  # the code for exploring and visualizing the data.
-|   |-- modelling/                  # notebooks related to data modelling.
-|   |   |-- data_modelling.ipynb    # the code for modelling.
-|-- opt/                            # optional code for the project
-|   |-- requirements.txt            # pre-requisite pip-installable packages
-|-- src/                            # source code for the project.
-|   |-- train.py                    # the code for the final model.
-|   |-- constants.py                # the code for the features.
-|   |-- server.py                   # the code query the REST API.
-|   |-- __init__.py                 # a file that makes the src directory a Python package.
-|-- tests/                          # code for testing the project.
-|   |-- __init__.py                 # a file that makes the tests directory a Python package.
-|   |-- make_predictions_with_api.py # a file to make predictions using the API.
-|   |-- send_valid_request.sh       # a file that makes sure that API works (sends to localhost:5001).
-|-- README.md                       # title-page: a brief description of the project.
-|-- LICENSE                         # the license under which the project is distributed: MIT License
-|-- Dockerfile                      # Dockerfile [created image ~2GB]
-|-- docker-compose.yaml
-```
-
 ## [Models](#models)
 
 We evaluated the performances of four different models. Their accuracies and ROC AUC are listed in the table below:
@@ -218,6 +184,38 @@ We evaluated the performances of four different models. Their accuracies and ROC
 |LGBMClassifier ✅              | 0.796   | 0.752   |
 
 Our final model, LGBMClassifier, produced a score of **0.807** and an ROC AUC = **0.797**.
+
+## [Directory structure](#dirctory-structure)
+
+```bash
+./medical-appointment-no-shows
+├── scripts
+│   ├── train.py
+│   ├── predict.py
+│   ├── predict-test.py
+│   ├── constants.py
+│   └── __pycache__
+├── opt
+│   ├── optional_requirement.txt
+│   └── environment.yml
+├── notebooks
+│   └── notebook.ipynb
+├── models
+│   ├── XGBClassifier_tranformers_final.bin
+│   ├── XGBClassifier_final.bin
+│   ├── XGBClassifier.bin
+│   ├── RandomForestClassifier.bin
+│   ├── LogisticRegression.bin
+│   ├── LGBMClassifier_tranformers_final.bin
+│   ├── LGBMClassifier.bin
+│   └── DecisionTreeClassifier.bin
+├── data
+│   ├── README.md
+│   └── KaggleV2-May-2016.csv
+├── README.md
+├── LICENSE
+└── Dockerfile
+```
 
 ## [Contributors](#contributors)
 Abhirup Ghosh, <abhirup.ghosh.184098@gmail.com>
