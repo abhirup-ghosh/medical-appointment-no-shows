@@ -21,6 +21,8 @@ Predicting whether a patient will show up for their scheduled medical appointmen
 
 Starting with a Kaggle data of medical appointment no-shows by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), we evaluate the performances of four different classification algorithms (Logistic Regression, Decision Trees, Random Forests, XGBoost, and LightGBM) and settle on an `LGBMClassifier` model as our final model. Using the trained model we make predictions on whether a future appointment would lead to a no-show or not. Finally, we containerise this application and deploy it on the cloud.
 
+![Austrian Medical Association (ÖÄK)](./data/no-show-patients.jpg)
+
 ## [Datasets](#datasets)
 
 This project uses a Kaggle dataset of over 100,000 medical appointments characterised by 14 associated variables, including temporal details, patient information and the ultimate outcome (and the **target variable** of our classification task) of the appointment -- whether the patient showed up for the appointment or not. The dataset was created by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), and can be downloaded from:
