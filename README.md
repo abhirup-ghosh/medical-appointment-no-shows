@@ -87,14 +87,49 @@ This notebook outlines the entire investigation and consists of the following st
 
 ### 4. Training model
 
-We encode our best model (XGBClassifier) inside the `scripts/train.py` file which can be run using [🚨 The script can take upto 30 mins to run.]:
+We encode our best model (LGBMClassifier) inside the `scripts/train.py` file which can be run using:
 ```
 python scripts/train.py
 ```
 
-The output of this model can be found in: `models/LGBMClassifier_tranformers_final.bin`. It have an accuracy of **0.807** and an ROC AUC = **0.797**. This is the model we use to make predictions in the next steps.
+The output of this script, which includes the model and the encoder/scaler transforms, can be found in: `models/LGBMClassifier_tranformers_final.bin`. It have an accuracy of **0.807** and an ROC AUC = **0.797**. This is the model we use to make predictions in the next steps.
 
 ### 5. Making predictions
+
+We have written a Flask code for serving the model, which can be run using:
+
+```
+python scripts/predict.py
+```
+
+We can use this to make an example prediction on the appointment:
+
+```
+test_appointment = {
+                    'PatientId': 377511518121127.0,
+                    'AppointmentID': 5629448,
+                    'Gender': 'F',
+                    'ScheduledDay': '2016-04-27 13:30:56+0000',
+                    'AppointmentDay': '2016-06-07 00:00:00+0000',
+                    'Age': 54,
+                    'Neighbourhood': 'MARIA ORTIZ',
+                    'Scholarship': False,
+                    'Hipertension': False,
+                    'Diabetes': False,
+                    'Alcoholism': False,
+                    'Handcap': 0,
+                    'SMS_received': True
+                    }
+```
+
+using the command:
+
+```
+python scripts/predict-test.py
+# {'no_show': False, 'no_show_probability': 0.2880257379453167}
+```
+
+This gives us a `no_show` class [0 or 1] as well as a probability.
 
 ### 6. Model Deployment
 
@@ -149,7 +184,7 @@ We evaluated the performances of four different models. Their accuracies and ROC
 |XGBClassifier                  | 0.796 	| 0.749 	|
 |LGBMClassifier ✅              | 0.796   | 0.752   |
 
-Our final model, XGBClassifier, produced a score of 
+Our final model, LGBMClassifier, produced a score of **0.807** and an ROC AUC = **0.797**.
 
 ## [Contributors](#contributors)
 Abhirup Ghosh, <abhirup.ghosh.184098@gmail.com>
