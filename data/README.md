@@ -13,8 +13,6 @@ https://www.kaggle.com/datasets/joniarroba/noshowappointments/data
 
 ## Dataset details
 
-
-
 * Rows: 110,527 [each corresponding to a medical appointment]
 * Input features: 14
 * Target variable: **"No Show"** column
@@ -37,6 +35,27 @@ https://www.kaggle.com/datasets/joniarroba/noshowappointments/data
 |12 | Handcap | Number of desabilites a patient has [(explanation provided by creator of dataset)](https://www.kaggle.com/datasets/joniarroba/noshowappointments/discussion/29699#229356) | int |
 |13 | SMS_received | 1 or more messages sent to the patient | bool |
 |14 | No-show | Whether the patient showed up for the appointment | string |
+
+Example case:
+
+```
+{
+    'PatientId': 377511518121127.0,
+    'AppointmentID': 5629448,
+    'Gender': 'F',
+    'ScheduledDay': pd.Timestamp('2016-04-27 13:30:56+0000', tz='UTC'),
+    'AppointmentDay': pd.Timestamp('2016-06-07 00:00:00+0000', tz='UTC'),
+    'Age': 54,
+    'Neighbourhood': 'MARIA ORTIZ',
+    'Scholarship': False,
+    'Hipertension': False,
+    'Diabetes': False,
+    'Alcoholism': False,
+    'Handcap': 0,
+    'SMS_received': True,
+    'No-Show': True
+}
+```
 
 ## Acknowledgement
 

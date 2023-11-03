@@ -11,7 +11,7 @@ from sklearn.metrics import roc_auc_score, accuracy_score
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 
-import xgboost as xgb
+import lightgbm as lgb
 import pickle
 
 #----------------------------------------------------------------------------------------
@@ -164,28 +164,19 @@ features = [feature for feature in np.append(scaler.get_feature_names_out(),ohe.
 
 #----------------------------------------------------------------------------------------
 # # Modelling
-# ## Gradient boosting and XGBoost
-# ## Hyper-parameter tuning
+# ## LightGBM
 #----------------------------------------------------------------------------------------
-print('...hyper-parameter tuning')
-xgb_model = xgb.XGBClassifier()
-xgb_params = {
-              'eta': [0.01, 0.1, 1, 10],
-              'max_depth': [3, 6, 9, 12],
-              'min_child_weight': [1,10, 30]
-              }
-clf = GridSearchCV(xgb_model, xgb_params, scoring='roc_auc')
-
-clf.fit(X_train, y_train)
-xgb_best = clf.best_estimator_
-#xgb_best
-
 print('...training using best model')
-xgb_best.fit(X_train, y_train)
+lgbm_best = lgb.LGBMClassifier(boosting_type='dart',
+                                learning_rate=0.1,
+                                max_depth=12,
+                                n_estimators=500)
+
+lgbm_best.fit(X_train, y_train)
 
 # fitting to training set
 print('...evaluation of fit')
-y_fit = xgb_best.predict_proba(X_train)[:, 1]
+y_fit = lgbm_best.predict_proba(X_train)[:, 1]
 print('Accuracy:', accuracy_score(y_train, y_fit >= 0.5))
 print('AUC ROC:', roc_auc_score(y_train, y_fit))
 
@@ -193,7 +184,7 @@ print('AUC ROC:', roc_auc_score(y_train, y_fit))
 # # Saving model
 #----------------------------------------------------------------------------------------
 print('...saving model')
-model_name = "XGBClassifier_tranformers_final"
+model_name = "LGBMClassifier_tranformers_final"
 
 with open(f'models/{model_name}.bin', 'wb') as f_out: # 'wb' means write-binary
-    pickle.dump((scaler, ohe, xgb_best), f_out)
+    pickle.dump((scaler, ohe, lgbm_best), f_out)
