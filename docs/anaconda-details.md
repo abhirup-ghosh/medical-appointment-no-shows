@@ -123,28 +123,3 @@ Verifying the installation: Once you have started the Docker service, you can ve
 ```
 sudo docker run hello-world
 ```
-
-
-## Elastic Beanstalk
-
-
-```
-which python
-# /home/ubuntu/miniconda3/bin/python
-```
-
-```
-pip --version
-# pip 23.2.1 from /home/ubuntu/miniconda3/lib/python3.11/site-packages/pip (python 3.11)
-pip install awsebcli
-```
-
-
-```
-eb init -p docker -r eu-north-1 no-show-predictor
-ERROR: The current user does not have the correct permissions. Reason: Operation Denied. The security token included in the request is invalid.
-You have not yet set up your credentials or your credentials are incorrect 
-You must provide your credentials.
-(aws-access-id): AKIA****
-(aws-secret-key): ****
-```
