@@ -52,6 +52,10 @@ Miniconda3 will now be installed into this location:
 
 [/home/ubuntu/miniconda3] >>> 
 PREFIX=/home/ubuntu/miniconda3
+
+
+You can undo this by running `conda init --reverse $SHELL`? [yes|no]
+[no] >>> yes
 ```
 
 ## Launch Jupyter notebook
@@ -84,3 +88,63 @@ http://localhost:8888
 ```
 
 This will prompt a token input. Provide `<TOKEN>` from the above step.
+
+## Clone repository
+
+```
+mkdir -p Documents/projects
+cd Documents/projects
+git clone https://github.com/abhirup-ghosh/medical-appointment-no-shows.git
+```
+
+## Install and Start Docker
+
+Updating package index: Before installing Docker, you should update the package index:
+
+```
+sudo apt-get update
+```
+
+Installing docker: To install Docker on Ubuntu, you can use the following command:
+
+
+```
+sudo apt-get install docker.io -y
+```
+
+Starting the Docker service: After installing Docker, you will need to start the Docker service:
+
+```
+sudo systemctl start docker
+```
+
+Verifying the installation: Once you have started the Docker service, you can verify that it is running by running the following command in your terminal:
+
+```
+sudo docker run hello-world
+```
+
+
+## Elastic Beanstalk
+
+
+```
+which python
+# /home/ubuntu/miniconda3/bin/python
+```
+
+```
+pip --version
+# pip 23.2.1 from /home/ubuntu/miniconda3/lib/python3.11/site-packages/pip (python 3.11)
+pip install awsebcli
+```
+
+
+```
+eb init -p docker -r eu-north-1 no-show-predictor
+ERROR: The current user does not have the correct permissions. Reason: Operation Denied. The security token included in the request is invalid.
+You have not yet set up your credentials or your credentials are incorrect 
+You must provide your credentials.
+(aws-access-id): AKIA****
+(aws-secret-key): ****
+```
