@@ -1,5 +1,6 @@
 name: ml-zoomcamp
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - _py-xgboost-mutex=2.0=cpu_0
@@ -11,20 +12,25 @@ dependencies:
   - argon2-cffi-bindings=21.2.0=py39hca72f7f_0
   - asttokens=2.0.5=pyhd3eb1b0_0
   - attrs=23.1.0=py39hecd8cb5_0
+  - awsebcli=3.20.3=py39h6e9494a_1
   - babel=2.11.0=py39hecd8cb5_0
   - backcall=0.2.0=pyhd3eb1b0_0
   - beautifulsoup4=4.12.2=py39hecd8cb5_0
   - blas=1.0=openblas
   - bleach=4.1.0=pyhd3eb1b0_0
+  - blessed=1.19.1=pyhe4f9e05_2
+  - botocore=1.31.78=pyhd8ed1ab_0
   - bottleneck=1.3.5=py39h67323c0_0
   - brotli=1.0.9=hca72f7f_7
   - brotli-bin=1.0.9=hca72f7f_7
   - brotli-python=1.0.9=py39he9d5cce_7
-  - ca-certificates=2023.08.22=hecd8cb5_0
-  - certifi=2023.7.22=py39hecd8cb5_0
+  - ca-certificates=2023.7.22=h8857fd0_0
+  - cement=2.10.12=py_0
+  - certifi=2023.7.22=pyhd8ed1ab_0
   - cffi=1.15.1=py39h6c40b1e_3
   - charset-normalizer=2.0.4=pyhd3eb1b0_0
   - click=8.1.7=py39hecd8cb5_0
+  - colorama=0.4.6=pyhd8ed1ab_0
   - comm=0.1.2=py39hecd8cb5_0
   - contourpy=1.0.5=py39haf03e11_0
   - cryptography=41.0.3=py39h30e54ef_0
@@ -39,6 +45,7 @@ dependencies:
   - flask=2.2.2=py39hecd8cb5_0
   - fonttools=4.25.0=pyhd3eb1b0_0
   - freetype=2.12.1=hd8bbffd_0
+  - future=0.18.3=pyhd8ed1ab_0
   - gettext=0.21.0=he85b6c0_1
   - giflib=5.2.1=h6c40b1e_3
   - glib=2.69.1=hfff2838_2
@@ -57,6 +64,7 @@ dependencies:
   - itsdangerous=2.0.1=pyhd3eb1b0_0
   - jedi=0.18.1=py39hecd8cb5_1
   - jinja2=3.1.2=py39hecd8cb5_0
+  - jmespath=1.0.1=pyhd8ed1ab_0
   - joblib=1.2.0=py39hecd8cb5_0
   - jpeg=9e=h6c40b1e_1
   - json5=0.9.6=pyhd3eb1b0_0
@@ -123,16 +131,16 @@ dependencies:
   - numpy=1.26.0=py39hf6dca73_0
   - numpy-base=1.26.0=py39hd8f4981_0
   - openjpeg=2.4.0=h66ea3da_0
-  - openssl=3.0.12=hca72f7f_0
+  - openssl=3.1.4=hd75f5a5_0
   - packaging=23.1=py39hecd8cb5_0
   - pandas=2.1.1=py39h3ea8b11_0
   - pandocfilters=1.5.0=pyhd3eb1b0_0
   - parso=0.8.3=pyhd3eb1b0_0
+  - pathspec=0.11.2=pyhd8ed1ab_0
   - pcre=8.45=h23ab428_0
   - pexpect=4.8.0=pyhd3eb1b0_3
   - pickleshare=0.7.5=pyhd3eb1b0_1003
   - pillow=10.0.1=py39h7d39338_0
-  - pip=23.3=py39hecd8cb5_0
   - pipenv=2022.7.4=py39hecd8cb5_0
   - platformdirs=3.10.0=py39hecd8cb5_0
   - ply=3.11=py39hecd8cb5_0
@@ -156,6 +164,7 @@ dependencies:
   - python-fastjsonschema=2.16.2=py39hecd8cb5_0
   - python-json-logger=2.0.7=py39hecd8cb5_0
   - python-tzdata=2023.3=pyhd3eb1b0_0
+  - python_abi=3.9=2_cp39
   - pytz=2023.3.post1=py39hecd8cb5_0
   - pyyaml=6.0.1=py39h6c40b1e_0
   - pyzmq=23.2.0=py39he9d5cce_0
@@ -169,6 +178,7 @@ dependencies:
   - scikit-learn=1.3.0=py39h3ea8b11_0
   - scipy=1.11.3=py39ha516a68_0
   - seaborn=0.12.2=py39hecd8cb5_0
+  - semantic_version=2.10.0=pyhd8ed1ab_0
   - send2trash=1.8.0=pyhd3eb1b0_1
   - setuptools=68.0.0=py39hecd8cb5_0
   - sip=6.7.12=py39hcec6c5f_0
@@ -177,6 +187,7 @@ dependencies:
   - soupsieve=2.5=py39hecd8cb5_0
   - sqlite=3.41.2=h6c40b1e_0
   - stack_data=0.2.0=pyhd3eb1b0_0
+  - termcolor=2.3.0=pyhd8ed1ab_0
   - terminado=0.17.1=py39hecd8cb5_0
   - threadpoolctl=2.2.0=pyh0d69192_0
   - tinycss2=1.2.1=py39hecd8cb5_0
@@ -206,3 +217,5 @@ dependencies:
   - zipp=3.11.0=py39hecd8cb5_0
   - zlib=1.2.13=h4dc903c_0
   - zstd=1.5.5=hc035e20_0
+  - pip:
+    - pip==23.3.1
