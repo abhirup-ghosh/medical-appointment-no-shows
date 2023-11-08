@@ -1,4 +1,4 @@
-## Setting up your EC2 instance
+# Setting up your EC2 instance
 
 Pre-requisites:
 * [Opening an AWS account](https://mlbookcamp.com/article/aws)
@@ -6,34 +6,42 @@ Pre-requisites:
 
 EC2 is a fancy name for an Linux machine. Since this was my first time working with an EC2 instance, I put down some basic instructions of setting up my environment on the Ubuntu EC2 instance.
 
+## Access instance and basic setup
+
 SSH into AWS EC2 instance:
 ```
-ssh -i "jupyter.pem" ubuntu@<${Public_IPv4_DNS}>.compute.amazonaws.com # jupyter.pem: key-pair file
+>>> ssh -i "jupyter.pem" ubuntu@<${Public_IPv4_DNS}>.compute.amazonaws.com # jupyter.pem: key-pair file
 ```
 
 and create a basic directory structure:
 ```
-ubuntu@ip-172-31-26-0:~$ mkdir Documents Downloads
+>>> mkdir Documents Downloads
 ```
 
-## Installing Conda
+## Clone project repository
 
+```
+>>> mkdir -p Documents/projects
+>>> cd Documents/projects
+>>> git clone https://github.com/abhirup-ghosh/medical-appointment-no-shows.git
+```
 
+## Install Conda and create course environment
 
 Download the installer:
 ```
-ubuntu@ip-172-31-26-0:~$ cd Downloads/
-ubuntu@ip-172-31-26-0:~/Downloads$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+>>> cd Downloads/
+>>> wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 Verify your installer hashes.
 ```
-ubuntu@ip-172-31-26-0:~/Downloads$ shasum -a 256 Miniconda3-latest-Linux-x86_64.sh 
+>>> shasum -a 256 Miniconda3-latest-Linux-x86_64.sh 
 43651393236cb8bb4219dcd429b3803a60f318e5507d8d84ca00dafa0c69f1bb  Miniconda3-latest-Linux-x86_64.sh
 ```
 
 Install Miniconda:
 ```
-bash Miniconda3-latest-Linux-x86_64.sh
+>>> bash Miniconda3-latest-Linux-x86_64.sh
 
 In order to continue the installation process, please review the license
 agreement.
@@ -58,12 +66,21 @@ You can undo this by running `conda init --reverse $SHELL`? [yes|no]
 [no] >>> yes
 ```
 
+Install course conda environment [optional]:
+
+```
+>>> conda create -n ml-zoomcamp python=3.9
+>>> conda activate ml-zoomcamp
+>>> conda install numpy pandas scikit-learn seaborn jupyter
+```
+
 ## Launch Jupyter notebook
 
 On EC2:
 
 ```
 >>> conda activate ml-zoomcamp
+>>> cd cd Documents/projects/medical-appointment-no-shows
 >>> jupyter notebook --ip=0.0.0.0 --no-browser --port 8888
 .
 .
@@ -89,33 +106,26 @@ http://localhost:8888
 
 This will prompt a token input. Provide `<TOKEN>` from the above step.
 
-## Clone repository
-
-```
-mkdir -p Documents/projects
-cd Documents/projects
-git clone https://github.com/abhirup-ghosh/medical-appointment-no-shows.git
-```
 
 ## Install, Start and Test Docker
 
 Updating package index: Before installing Docker, you should update the package index:
 
 ```
-sudo apt-get update
+>>> sudo apt-get update
 ```
 
 Installing docker: To install Docker on Ubuntu, you can use the following command:
 
 
 ```
-sudo apt-get install docker.io -y
+>>> sudo apt-get install docker.io -y
 ```
 
 Starting the Docker service: After installing Docker, you will need to start the Docker service:
 
 ```
-sudo systemctl start docker
+>>> sudo systemctl start docker
 ```
 
 At this point, it is worth exploring running docker without sudo privileges. You could follow the instructions in this page:
@@ -123,19 +133,105 @@ https://stackoverflow.com/questions/48957195/how-to-fix-docker-got-permission-de
 
 
 ```
-# Create the docker group if it does not exist
-sudo groupadd docker
+>>> # Create the docker group if it does not exist
+>>> sudo groupadd docker
 
-# Add your user to the docker group.
-sudo usermod -aG docker $USER
+>>> # Add your user to the docker group.
+>>> sudo usermod -aG docker $USER
 
-# Log in to the new docker group (to avoid having to log out / log in again; but if not enough, try to reboot):
-newgrp docker
+>>> # Log in to the new docker group (to avoid having to log out / log in again; but if not enough, try to reboot):
+>>> newgrp docker
 ```
 Verifying the installation: Once you have started the Docker service, you can verify that it is running by running the following command in your terminal:
 
 ```
-docker run hello-world
+>>> docker run hello-world
 ```
 
-## 
+## Setting up Elastic Beanstalk application
+
+Install `pipenv` using `pip`: 
+```
+>>> pip install pipenv
+```
+
+Using `pipenv` install relevant packages including `awsebcli`
+```
+>>> pipenv install gunicorn flask pandas scikit-learn lightgbm awsebcli
+```
+
+Run a command inside the virtualenv with `pipenv run`. Alternatively, to activate this project's virtualenv, run:
+
+```
+>>> pipenv shell
+```
+
+Initialise the elastic beanstalk repository:
+
+```
+>>> eb init -p "Docker running on 64bit Amazon Linux 2" -r eu-north-1 no-show-predictor
+```
+
+`""Docker running on 64bit Amazon Linux 2""` was an important addition. This creates the repository under `.elasticbeanstalk` with a config file:
+
+```
+>>> cat .elasticbeanstalk/config.yml                                                                                                                                                                                                           
+branch-defaults:                                                                                                                                                                                                                                                                                                              
+  main:                                                                                                                                                                                                                                                                                                                       
+    environment: null                                                                                                                                                                                                                                                                                                         
+global:                                                                                                                                                                                                                                                                                                                         application_name: no-show-predictor
+  branch: null
+  default_ec2_keyname: null
+  default_platform: Docker running on 64bit Amazon Linux 2
+  default_region: eu-north-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  repository: null
+  sc: git
+  workspace_type: Application
+```
+
+Run the elastic beanstalk repository using:
+```
+>>> eb local run --port 9696
+```
+
+This automatically launches the `gunicorn` bind, which can then be accessed from another tab using:
+
+```
+>>> python scripts/predict-test.py
+# {'no_show': False, 'no_show_probability': 0.2880257379453167}  
+```
+
+## Creating the application environment
+
+```
+# In case you are not already in the pipenv environment
+>>> pipenv shell
+```
+
+```
+>>> eb create no-show-predictor-env
+Creating application version archive "app-23d6-231108_160635019599".
+Uploading no-show-predictor/app-23d6-231108_160635019599.zip to S3. This may take a while.
+Upload Complete.
+Environment details for: no-show-predictor-env
+  Application name: no-show-predictor
+  Region: eu-north-1
+  Deployed Version: app-23d6-231108_160635019599
+  Environment ID: e-xn28kaqxkf
+  Platform: arn:aws:elasticbeanstalk:eu-north-1::platform/Docker running on 64bit Amazon Linux 2/3.6.3
+  Tier: WebServer-Standard-1.0
+  CNAME: UNKNOWN
+  Updated: 2023-11-08 16:06:39.154000+00:00
+Printing Status:
+2023-11-08 16:06:37    INFO    createEnvironment is starting.
+2023-11-08 16:06:39    INFO    Using elasticbeanstalk-eu-north-1-166783209982 as Amazon S3 storage bucket for environment data.
+2023-11-08 16:06:59    INFO    Created security group named: sg-039621eaa586320a8
+2023-11-08 16:07:14    INFO    Created security group named: awseb-e-xn28kaqxkf-stack-AWSEBSecurityGroup-1LWECXFK9R3YG
+2023-11-08 16:07:14    INFO    Created target group named: arn:aws:elasticloadbalancing:eu-north-1:166783209982:targetgroup/awseb-AWSEB-92I0TNCEWYUK/2e1f01726ec9c857
+2023-11-08 16:07:14    INFO    Created Auto Scaling launch configuration named: awseb-e-xn28kaqxkf-stack-AWSEBAutoScalingLaunchConfiguration-C9TVnNCX7735
+```

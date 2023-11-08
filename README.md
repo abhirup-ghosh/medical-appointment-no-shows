@@ -63,7 +63,6 @@ The easiest way to set up the environment is to use [Anaconda](https://www.anaco
 conda create -n ml-zoomcamp python=3.9
 conda activate ml-zoomcamp
 conda install numpy pandas scikit-learn seaborn jupyter xgboost pipenv flask gunicorn lightgbm
-conda install -c conda-forge awsebcli
 ```
 
 Alternatively, I have also provided a conda `environment.yml` file that can be directly used to create the environment:
@@ -149,7 +148,7 @@ This gives us a `no_show` class [0 or 1] as well as a probability.
 
 🚨 Always remember to `conda activate ml-zoomcamp` whenever opening a new terminal/tab.
 
-### 6. Model Deployment
+### 6. Model Containerisation
 
 Run the `Dockerfile` using [make sure that the docker daemon is running?] to build the image `no-show-prediction`:
 
@@ -175,6 +174,10 @@ cd scripts
 python predict-test.py
 # {'no_show': False, 'no_show_probability': 0.2880257379453167}
 ```
+
+### 7. Model Deployment: AWS
+
+I spent quite sometime working on this step, and decided to outline the steps through a set of detailed instructions [here](./docs/setting-up-ec2-eb.md).
 
 ## [Models](#models)
 
