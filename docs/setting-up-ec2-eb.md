@@ -33,7 +33,7 @@ ubuntu@ip-172-31-26-0:~/Downloads$ shasum -a 256 Miniconda3-latest-Linux-x86_64.
 
 Install Miniconda:
 ```
-ubuntu@ip-172-31-26-0:~$ bash Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
 
 In order to continue the installation process, please review the license
 agreement.
@@ -97,7 +97,7 @@ cd Documents/projects
 git clone https://github.com/abhirup-ghosh/medical-appointment-no-shows.git
 ```
 
-## Install and Start Docker
+## Install, Start and Test Docker
 
 Updating package index: Before installing Docker, you should update the package index:
 
@@ -118,8 +118,24 @@ Starting the Docker service: After installing Docker, you will need to start the
 sudo systemctl start docker
 ```
 
+At this point, it is worth exploring running docker without sudo privileges. You could follow the instructions in this page:
+https://stackoverflow.com/questions/48957195/how-to-fix-docker-got-permission-denied-issue
+
+
+```
+# Create the docker group if it does not exist
+sudo groupadd docker
+
+# Add your user to the docker group.
+sudo usermod -aG docker $USER
+
+# Log in to the new docker group (to avoid having to log out / log in again; but if not enough, try to reboot):
+newgrp docker
+```
 Verifying the installation: Once you have started the Docker service, you can verify that it is running by running the following command in your terminal:
 
 ```
-sudo docker run hello-world
+docker run hello-world
 ```
+
+## 
