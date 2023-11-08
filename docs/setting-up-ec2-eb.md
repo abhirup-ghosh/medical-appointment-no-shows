@@ -170,9 +170,18 @@ Initialise the elastic beanstalk repository:
 
 ```
 >>> eb init -p "Docker running on 64bit Amazon Linux 2" -r eu-north-1 no-show-predictor
+You have not yet set up your credentials or your credentials are incorrect 
+You must provide your credentials.
+(aws-access-id): AKIA****
+(aws-secret-key): ****
 ```
 
-`""Docker running on 64bit Amazon Linux 2""` was an important addition. This creates the repository under `.elasticbeanstalk` with a config file:
+There are a few important points here:
+* `-p docker` did not work for me and instead had to be replaced by a more detailed `-p "Docker running on 64bit Amazon Linux 2"`
+* It prompted my aws-access-id and key which had to be generated using `Security Credentials`
+
+
+This creates the repository under `.elasticbeanstalk` with a config file:
 
 ```
 >>> cat .elasticbeanstalk/config.yml                                                                                                                                                                                                           
@@ -213,6 +222,8 @@ This automatically launches the `gunicorn` bind, which can then be accessed from
 >>> pipenv shell
 ```
 
+Create the environment using:
+
 ```
 >>> eb create no-show-predictor-env
 Creating application version archive "app-23d6-231108_160635019599".
@@ -221,8 +232,8 @@ Upload Complete.
 Environment details for: no-show-predictor-env
   Application name: no-show-predictor
   Region: eu-north-1
-  Deployed Version: app-23d6-231108_160635019599
-  Environment ID: e-xn28kaqxkf
+  Deployed Version: ****
+  Environment ID: ****
   Platform: arn:aws:elasticbeanstalk:eu-north-1::platform/Docker running on 64bit Amazon Linux 2/3.6.3
   Tier: WebServer-Standard-1.0
   CNAME: UNKNOWN
@@ -230,8 +241,21 @@ Environment details for: no-show-predictor-env
 Printing Status:
 2023-11-08 16:06:37    INFO    createEnvironment is starting.
 2023-11-08 16:06:39    INFO    Using elasticbeanstalk-eu-north-1-166783209982 as Amazon S3 storage bucket for environment data.
-2023-11-08 16:06:59    INFO    Created security group named: sg-039621eaa586320a8
-2023-11-08 16:07:14    INFO    Created security group named: awseb-e-xn28kaqxkf-stack-AWSEBSecurityGroup-1LWECXFK9R3YG
-2023-11-08 16:07:14    INFO    Created target group named: arn:aws:elasticloadbalancing:eu-north-1:166783209982:targetgroup/awseb-AWSEB-92I0TNCEWYUK/2e1f01726ec9c857
-2023-11-08 16:07:14    INFO    Created Auto Scaling launch configuration named: awseb-e-xn28kaqxkf-stack-AWSEBAutoScalingLaunchConfiguration-C9TVnNCX7735
+2023-11-08 16:06:59    INFO    Created security group named: ****
+2023-11-08 16:07:14    INFO    Created security group named: ****
+2023-11-08 16:07:14    INFO    Created target group named: ****
+2023-11-08 16:07:14    INFO    Created Auto Scaling launch configuration named: ****
+2023-11-08 16:07:45    INFO    Created Auto Scaling group named: ****
+2023-11-08 16:07:45    INFO    Waiting for EC2 instances to launch. This may take a few minutes.
+2023-11-08 16:07:45    INFO    Created Auto Scaling group policy named: ****
+2023-11-08 16:07:45    INFO    Created Auto Scaling group policy named: ****
+2023-11-08 16:07:45    INFO    Created CloudWatch alarm named: ****
+2023-11-08 16:07:45    INFO    Created CloudWatch alarm named: ****
+2023-11-08 16:09:05    INFO    Created load balancer named: ****
+2023-11-08 16:09:05    INFO    Created Load Balancer listener named: ****
+2023-11-08 16:10:37    INFO    Instance deployment completed successfully.
+2023-11-08 16:10:50    INFO    Application available at no-show-predictor-env.eba-hpbyckm2.eu-north-1.elasticbeanstalk.com.
+2023-11-08 16:10:51    INFO    Successfully launched environment: no-show-predictor-env
 ```
+
+Thus we created an AWS Elastic Beanstalk environment for the "no-show-predictor" application. It includes steps such as uploading the application archive to Amazon S3, setting up various resources like security groups and load balancers, and ensuring the application is successfully deployed and accessible at a specific URL.

@@ -2,9 +2,10 @@
 
 ## Table of Contents
 - [Project Overview](#project-overview)
+- [Getting started immediately](#getting-started)
 - [Datasets](#datasets)
 - [Dependencies](#dependencies)
-- [Getting Started](#getting-started)
+- [Workflow](#workflow)
 - [Directory structure](#dirctory-structure)
 - [Models](#models)
 - [Contributors](#contributors)
@@ -19,11 +20,16 @@
 Predicting whether a patient will show up for their scheduled medical appointment is a critical task for healthcare providers as it can help optimize resource allocation and improve overall patient care. This machine learning project focuses on addressing the issue of patient no-shows in medical appointments. By harnessing the power of data and machine learning, we aim to develop a predictive model that can assist healthcare facilities in identifying patients at higher risk of no-shows. 
 
 
-Starting with a Kaggle data of medical appointment no-shows by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), we evaluate the performances of four different classification algorithms (Logistic Regression, Decision Trees, Random Forests, XGBoost, and LightGBM) and settle on an `LGBMClassifier` model as our final model. Using the trained model we make predictions on whether a future appointment would lead to a no-show or not. Finally, we containerise this application and deploy it on the cloud.
+Starting with a Kaggle data of medical appointment no-shows by [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/) and [Aquarela Analytics](https://www.linkedin.com/company/aquare-la/), we evaluate the performances of four different classification algorithms (Logistic Regression, Decision Trees, Random Forests, XGBoost, and LightGBM) and settle on an `LGBMClassifier` model as our final model. Using the trained model we make predictions on whether a future appointment would lead to a no-show or not. Finally, we containerise this application and deploy it as an elastic beanstalk application on AWS and provide an API to access it with.
 
 ![Title Image](./data/no-show-patients.jpg)
 
 Credit: Austrian Medical Association (ÖÄK)
+
+### [Getting started immediately](#getting-started)
+
+The application, called `no-show-predictor` is located at: **no-show-predictor-env.eba-hpbyckm2.eu-north-1.elasticbeanstalk.com**. You can use [this API](./scripts/predict-test-aws.py) to start making predictions immediately.
+
 
 ## [Datasets](#datasets)
 
@@ -41,13 +47,14 @@ The project requires the following dependencies to be installed:
 ```
 Conda
 Docker
+AWSEBCLI
 ```
 
-## [Getting Started](#getting-started)
+## [Workflow](#workflow)
 
 To run this project locally, follow these steps:
 
-### 1. Clone the repository: 
+### 1. Cloning the repository: 
 
 
 ```
@@ -148,7 +155,7 @@ This gives us a `no_show` class [0 or 1] as well as a probability.
 
 🚨 Always remember to `conda activate ml-zoomcamp` whenever opening a new terminal/tab.
 
-### 6. Model Containerisation
+### 6. Containerizing the model
 
 Run the `Dockerfile` using [make sure that the docker daemon is running?] to build the image `no-show-prediction`:
 
@@ -175,9 +182,21 @@ python predict-test.py
 # {'no_show': False, 'no_show_probability': 0.2880257379453167}
 ```
 
-### 7. Model Deployment: AWS
+### 7. Deploying an AWS Elastic Beanstalk application
 
-I spent quite sometime working on this step, and decided to outline the steps through a set of detailed instructions [here](./docs/setting-up-ec2-eb.md).
+We provide some detailed documentations about how to launch the code as an elastic beanstalk application [here](./docs/setting-up-ec2-eb.md). It involves the following steps:
+
+* Creating an AWS account
+* Renting and configuring an EC2 instance
+* Setting up the application environment using `conda`, `pipenv` and `docker`
+* Creating the elastic beanstalk application
+* Launching the application
+
+#### Details of application:
+
+Application name: `no-show-predictor`  
+Host: no-show-predictor-env.eba-hpbyckm2.eu-north-1.elasticbeanstalk.com  
+API: [./scripts/predict-test-aws.py](./scripts/predict-test-aws.py)  
 
 ## [Models](#models)
 
@@ -201,8 +220,12 @@ Our final model, LGBMClassifier, produced a score of **0.807** and an ROC AUC = 
 │   ├── train.py
 │   ├── predict.py
 │   ├── predict-test.py
+│   ├── predict-test-aws.py
 │   ├── constants.py
 │   └── __pycache__
+├── permissions
+│   ├── aws-explorer_credentials.csv
+│   └── aws-explorer_accessKeys.csv
 ├── opt
 │   ├── optional_requirement.txt
 │   └── environment.yml
@@ -217,12 +240,20 @@ Our final model, LGBMClassifier, produced a score of **0.807** and an ROC AUC = 
 │   ├── LGBMClassifier_tranformers_final.bin
 │   ├── LGBMClassifier.bin
 │   └── DecisionTreeClassifier.bin
+├── jupyter.pem
+├── docs
+│   └── setting-up-ec2-eb.md
 ├── data
+│   ├── no-show-patients.jpg
 │   ├── README.md
 │   └── KaggleV2-May-2016.csv
 ├── README.md
+├── Pipfile.lock
+├── Pipfile
 ├── LICENSE
 └── Dockerfile
+
+9 directories, 28 files
 ```
 
 ## [Contributors](#contributors)
@@ -235,16 +266,6 @@ This project is licensed under the [MIT License](./LICENSE).
 * [Alexey Grigorev](https://github.com/alexeygrigorev)
 * [DataTalks.Club](https://datatalks.club/)
 * [Joni Hoppen](https://www.linkedin.com/in/jonihoppen/)/[Aquarela Analytics](https://www.linkedin.com/company/aquare-la/)
-
-<!---
-## Follow-ups/Next steps
-* Fix: target variable and input features
-  * how is a defender judged
-  * where can we feel the most impact
-  * multi-target variable prediction: find a way to predict each attribute depending on it's own set of features
-  * target variables can be derived, advanced metrics regarding each attribute.
-* Move onto feature selection/engineering: Advanced defensive metrics
--->
 
 ## [Contributions and Feedback](#contributions-and-feedback)
 
