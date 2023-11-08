@@ -271,4 +271,6 @@ This project is licensed under the [MIT License](./LICENSE).
 
 We welcome contributions from the community and feedback from healthcare professionals and data scientists. Together, we can refine our model and enhance its utility in real-world healthcare settings. Feel free to explore the project, contribute, or reach out with any questions or suggestions. Together, we can work towards a healthcare system that is more efficient, patient-centered, and cost-effective.
 
+## Keywords
 
+#Classification #XGBoost #LightGBM #Conda #Pipenv #Flask #Gunicorn #Docker #AWS #ElasticBeanstalk #EC2 #API
