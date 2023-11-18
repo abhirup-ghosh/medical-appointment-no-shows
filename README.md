@@ -194,6 +194,9 @@ We provide some detailed documentations about how to launch the code as an elast
 
 #### Details of application:
 
+```
+⚠️ I have now deactivated this instance because it has reached the monthly limit allowed by AWS' FreeTier model
+```
 Application name: `no-show-predictor`  
 Host: no-show-predictor-env.eba-hpbyckm2.eu-north-1.elasticbeanstalk.com  
 API: [./scripts/predict-test-aws.py](./scripts/predict-test-aws.py)  
